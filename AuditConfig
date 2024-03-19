@@ -4,7 +4,7 @@
 spring.application.name=audit-manager
 server.servlet.context-path=/${spring.application.name}
 server.port=8082
-spring.cloud.config.server.git.uri=https://github.com/<username>/<repo>
+spring.cloud.config.server.git.uri=https://github.com/CredAble-vivekjaria/MyConfig
 spring.cloud.config.server.git.clone-on-start=true
 #spring.config.import=optional:configserver: instead
 
