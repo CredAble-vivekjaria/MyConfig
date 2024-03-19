@@ -1,0 +1,47 @@
+#===============================================================================
+# Server configuration
+#===============================================================================
+spring.application.name=audit-manager
+server.servlet.context-path=/${spring.application.name}
+server.port=8082
+spring.cloud.config.server.git.uri=https://github.com/<username>/<repo>
+spring.cloud.config.server.git.clone-on-start=true
+#spring.config.import=optional:configserver: instead
+
+#===============================================================================
+# Logging configuration
+#===============================================================================
+logging.pattern.console=%date{ISO8601} %-5level %class{0}:%L - [%X] %msg%n
+logging.file.name=logs/logs.log
+logging.pattern.file=%date{ISO8601} %-5level %class{0}:%L - [%X] %msg%n
+
+#===========================================
+# MongoDB Config
+#============================================
+spring.data.mongodb.host=localhost
+spring.data.mongodb.port=27017
+spring.data.mongodb.database=los_audit
+
+#===========================================
+# Resilience4j Config
+#============================================
+resilience4j.retry.instances.defaultRetry.max-attempts=3
+resilience4j.retry.instances.defaultRetry.wait-duration=2s
+resilience4j.retry.instances.defaultRetry.retry-exceptions=com.credable.audit.exception.ServiceUnavailableException
+resilience4j.circuitbreaker.instances.defaultCircuitBreaker.record-exceptions=com.credable.audit.exception.ServiceUnavailableException
+resilience4j.circuitbreaker.instances.defaultCircuitBreaker.wait-duration-in-open-state=1m
+resilience4j.circuitbreaker.instances.defaultCircuitBreaker.permitted-number-of-calls-in-half-open-state=3
+resilience4j.circuitbreaker.instances.defaultCircuitBreaker.sliding-window-type=count-based
+resilience4j.circuitbreaker.instances.defaultCircuitBreaker.sliding-window-size=5
+resilience4j.circuitbreaker.instances.defaultCircuitBreaker.minimum-number-of-calls=5
+resilience4j.circuitbreaker.instances.defaultCircuitBreaker.slow-call-duration-threshold=10s
+resilience4j.circuitbreaker.instances.defaultCircuitBreaker.slow-call-rate-threshold=60
+resilience4j.circuitbreaker.instances.defaultCircuitBreaker.failure-rate-threshold=60
+
+#===========================================
+# Kafka Common Config
+#============================================
+Kafka.bootstrap.servers=b-1-public.losdevpublic.ce9n3v.c4.kafka.ap-south-1.amazonaws.com:9198,b-2-public.losdevpublic.ce9n3v.c4.kafka.ap-south-1.amazonaws.com:9198
+kafka.listener.topic=audit_topic
+kafka.listener.group.id=email-consumer-group
+
